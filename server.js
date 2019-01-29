@@ -77,3 +77,23 @@ app.post('/api/v1/venues', (request, response) => {
       response.status(500).json({error})
     })
 })
+
+//Create a new concert
+app.post('/api/v1/venues/:id/concerts', (request, response) => {
+  const venueId = parseInt(request.params.id)
+  const concert = {...request.body, venue_id: venueId}
+
+  for(let requiredParameter of ['band', 'date']) {
+    if(!concert[requiredParameter]) {
+      return response.status(422)
+        .send({error: `Expected format: {band: <String>, date: <String>}. You are missing ${requiredParameter} property.`})
+    }
+  }
+  database('concerts').insert(concert, 'id')
+    .then(concertId => {
+      response.status(201).json({...concert, id: concertId[0]})
+    })
+    .catch(error => {
+      response.status(500).json({error})
+    })
+})
