@@ -113,3 +113,19 @@ app.put('/api/v1/venues/:id', (request, response) => {
       response.status(422).json({error})
     })
 })
+
+//Update an existing concert
+app.put('/api/v1/concerts/:id', (request, response) => {
+  const concertId = parseInt(request.params.id)
+  const concert = request.body
+
+  database('concerts')
+    .where('id', concertId)
+    .update({band: concert.band, date: concert.date})
+    .then(() => {
+      response.status(202).json({...concert, id: concertId})
+    })
+    .catch(error => {
+      response.status(422).json({error})
+    })
+})
