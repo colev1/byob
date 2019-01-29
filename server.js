@@ -129,3 +129,25 @@ app.put('/api/v1/concerts/:id', (request, response) => {
       response.status(422).json({error})
     })
 })
+
+//Delete an existing venue
+app.delete('/api/v1/venues/:id', (request, response) => {
+  const venueId = parseInt(request.params.id)
+
+  database('concerts')
+    .where('venue_id', venueId)
+    .del()
+    .then((concerts) => {
+      response.status(202).json({concerts})
+    })
+
+  database('venues')
+    .where('id', venueId)
+    .del()
+    .then((venue) => {
+      response.status(202).json({venue})
+    })
+    .catch(error => {
+      response.status(501).json({error})
+    })
+})
