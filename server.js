@@ -97,3 +97,19 @@ app.post('/api/v1/venues/:id/concerts', (request, response) => {
       response.status(500).json({error})
     })
 })
+
+//Update an existing venue
+app.put('/api/v1/venues/:id', (request, response) => {
+  const venueId = parseInt(request.params.id)  
+  const venue = request.body
+
+  database('venues')
+    .where('id', venueId)
+    .update({name: venue.name, address: venue.address})
+    .then(() => {
+      response.status(202).json({...venue, id: venueId})
+    })
+    .catch(error => {
+      response.status(422).json({error})
+    })
+})
