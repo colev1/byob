@@ -799,3 +799,5 @@ const concerts = [ {
     venue: 'Beta Nightclub'
   }
 ]
+
+module.exports = { venues, concerts } 
