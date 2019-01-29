@@ -151,3 +151,18 @@ app.delete('/api/v1/venues/:id', (request, response) => {
       response.status(501).json({error})
     })
 })
+
+//delete a concert
+app.delete('/api/v1/concerts/:id', (request, response) => {
+  const concertId = parseInt(request.params.id)
+
+  database('concerts')
+    .where('id', concertId)
+    .del()
+    .then((concert) => {
+      response.status(202).json({id: concertId})
+    })
+    .catch(error => {
+      response.status(501).json({error})
+    })
+})
