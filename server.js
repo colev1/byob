@@ -135,20 +135,18 @@ app.delete('/api/v1/venues/:id', (request, response) => {
   database('concerts')
     .where('venue_id', venueId)
     .del()
-    .then((concerts) => {
-      response.status(202).json({concerts})
+    .then( () => {
+      database('venues')
+        .where('id', venueId)
+        .del()
+        .then((venue) => {
+          response.status(202).json({venue})
+        })
+        .catch(error => {
+        response.status(501).json({error})
+      })
     })
-
-  database('venues')
-    .where('id', venueId)
-    .del()
-    .then((venue) => {
-      response.status(202).json({venue})
-    })
-    .catch(error => {
-      response.status(501).json({error})
-    })
-})
+  })
 
 //delete a concert
 app.delete('/api/v1/concerts/:id', (request, response) => {
