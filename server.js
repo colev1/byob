@@ -60,7 +60,6 @@ app.get('/api/v1/concerts/:id', (request, response) => {
 
 //create a new venue
 app.post('/api/v1/venues', (request, response) => {
-  console.log(request.body)
   const venue = request.body
   for(let requiredParameter of ['name', 'address']) {
     if(!venue[requiredParameter]) {
@@ -117,7 +116,7 @@ app.put('/api/v1/venues/:id', (request, response) => {
 app.put('/api/v1/concerts/:id', (request, response) => {
   const concertId = parseInt(request.params.id)
   const concert = request.body
-
+  
   database('concerts')
     .where('id', concertId)
     .update({band: concert.band, date: concert.date})
@@ -165,5 +164,6 @@ app.delete('/api/v1/concerts/:id', (request, response) => {
       response.status(501).json({error})
     })
 })
+
 
 module.exports = app;
