@@ -11,27 +11,21 @@ chai.use(chaiHttp);
 
 describe('API Routes', () => {
 
-  // before(done => {
-  //   database.migrate.rollback()
-  //   .then(() => {
-  //     database.migrate.latest()
-  //   })
-  //   .then(() => {
-  //     database.seed.run()
-  //   })
-  //   .then(() => {
-  //     done();
-  //   })
-  // });
-  
-  beforeEach(done => {
-    database.seed.run()
-    .then(() => {
-      done();
-    })
-  });
-
   describe('/api/v1/venues', () => {
+
+    beforeEach(done => {
+      database.migrate.rollback()
+        .then(() => {
+          database.migrate.latest()
+            .then(() => {
+              return database.seed.run()
+                .then(() => {
+                  done();
+                })
+            })
+        })
+    })
+
     it('GET: should return all of the venues', done => {
       chai.request(server)
       .get('/api/v1/venues')
@@ -82,6 +76,20 @@ describe('API Routes', () => {
   })
 
   describe('/api/v1/concerts', () => {
+
+    beforeEach(done => {
+      database.migrate.rollback()
+        .then(() => {
+          database.migrate.latest()
+            .then(() => {
+              return database.seed.run()
+                .then(() => {
+                  done();
+                })
+            })
+        })
+    })
+
     it('GET: should return all of the concerts', (done) => {
       chai.request(server)
       .get('/api/v1/concerts')
@@ -89,7 +97,7 @@ describe('API Routes', () => {
         response.should.have.status(200)
         response.should.be.json
         response.body.should.be.a('array')
-        response.body.length.should.equal(3)
+        response.body.length.should.equal(2)
         response.body[0].should.have.property('id')
         response.body[0].should.have.property('band')
         response.body[0].should.have.property('date')
@@ -109,13 +117,11 @@ describe('API Routes', () => {
         response.should.be.json
         response.body.should.be.a('object')
         response.body.should.have.property('id')
-        response.body.id.should.equal('4')
         response.body.should.have.property('band')
         response.body.band.should.equal('Beyonce')
         response.body.should.have.property('date')
         response.body.data.should.equal('01/01/01')
         response.body.should.have.property('venue_id')
-        response.body.venue_id.should.equal(3)
         done()
       })
     })
