@@ -42,7 +42,7 @@ describe('API Routes', () => {
       })
     })
 
-    it('POST: posts successfully', done => {
+    it('POST: posts new venue successfully', done => {
       chai.request(server)
       .post('/api/v1/venues')
       .send({
@@ -81,6 +81,7 @@ describe('API Routes', () => {
       chai.request(server)
       .get('/api/v1/concerts')
       .end((err, response) => {
+        console.log(response.body)
         response.should.have.status(200)
         response.should.be.json
         response.body.should.be.a('array')
@@ -89,12 +90,29 @@ describe('API Routes', () => {
         response.body[0].should.have.property('band')
         response.body[0].should.have.property('date')
         done()
-        )
       })
     })
 
-    it('posts successfully', () => {
-      
+    it('POST: posts new concert successfully', () => {
+      chai.request(server)
+      .get('/api/v1/venues/3/concerts')
+      .send({
+        band: 'Beyonce',
+        date: '01/01/01'
+      })
+      .end((err, response) => {
+        response.should.have.status(201)
+        response.should.be.json
+        response.body.should.be.a('object')
+        response.body.should.have.property('id')
+        response.body.id.should.equal('4')
+        response.body.should.have.property('band')
+        response.body.band.should.equal('Beyonce')
+        response.body.should.have.property('date')
+        response.body.data.should.equal('01/01/01')
+        response.body.should.have.property('venue_id')
+        response.body.venue_id.should.equal(3)
+      })
     })
 
     it('post sad path', () => {

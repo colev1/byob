@@ -15,20 +15,19 @@ const mockVenues = [
 
 const mockConcerts = [
   { 
-    band: 'Everclear',
-    date: 'Sep 03, 2018',
-    venue: 'Civic Center Park'
+    band: 'Stanley Jordon',
+      date: 'Jan 18, 2019',
+      venue: 'Soiled Dove Underground'
   },
   { 
-    band: 'Smash Mouth',
-    date: 'Sep 03, 2018',
-    venue: 'Civic Center Park'
+    band: 'Lucid Vision',
+    date: 'Jan 18, 2019',
+    venue: 'Cervantes\' Masterpiece Ballroom'
   },
   { 
-    band:
-     'Cyanotic',
-    date: 'Sep 01, 2018',
-    venue: '3 Kings Tavern'
+    band: 'Dreamers Delight',
+    date: 'Jan 12, 2019',
+    venue: 'Larimer Lounge'
   }
 ]
 
