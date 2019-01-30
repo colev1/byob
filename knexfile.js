@@ -13,6 +13,17 @@ module.exports = {
     },
     useNullAsDefault: true
   },
+  test: {
+    client: 'pg',
+    connection: 'postgres://localhost/tests',
+    migrations: {
+      directory: './db/migrations'
+    },
+    seeds: {
+      directory: './db/seeds/test'
+    },
+    useNullAsDefault: true
+  },
 
   production: {
     client: 'postgresql',
@@ -29,5 +40,4 @@ module.exports = {
       tableName: 'knex_migrations'
     }
   }
-
 };
