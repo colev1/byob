@@ -27,3 +27,5 @@ const mockConcerts = [
 ]
 
 module.exports = {mockVenues, mockConcerts}
+
+module.exports = {mockVenues, mockConcerts}
