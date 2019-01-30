@@ -66,8 +66,11 @@ describe('API Routes', () => {
       .send({
         name: 'Paramount'
       })
-      .end((err, response)=> {
+      .end((err, response) => {
         response.should.have.status(422)
+        response.should.be.json
+        response.should.have.property('error')
+        response.body.error.should.equal('Expected format: {name: <String>, address: <String>}. You are missing a required parameter of address.')
         done();
       })
     })
@@ -75,7 +78,19 @@ describe('API Routes', () => {
 
   describe('/api/v1/concerts', () => {
     it('GET: should return all of the concerts', () => {
-
+      chai.request(server)
+      .get('/api/v1/concerts')
+      .end((err, response) => {
+        response.should.have.status(200)
+        response.should.be.json
+        response.body.should.be.a('array')
+        response.body.length.should.equal(3)
+        response.body[0].should.have.property('id')
+        response.body[0].should.have.property('band')
+        response.body[0].should.have.property('date')
+        done()
+        )
+      })
     })
 
     it('posts successfully', () => {

@@ -66,7 +66,7 @@ app.post('/api/v1/venues', (request, response) => {
   for(let requiredParameter of ['name', 'address']) {
     if(!venue[requiredParameter]) {
       return response.status(422)
-        .send({error: `Expected format: {name: <String>, address: <String>}. You are missing ${requiredParameter} property.`})
+        .send({error: `Expected format: {name: <String>, address: <String>}. You are missing a required parameter of ${requiredParameter}.`})
     }
   }
   database('venues').insert(venue, 'id')
@@ -86,7 +86,7 @@ app.post('/api/v1/venues/:id/concerts', (request, response) => {
   for(let requiredParameter of ['band', 'date']) {
     if(!concert[requiredParameter]) {
       return response.status(422)
-        .send({error: `Expected format: {band: <String>, date: <String>}. You are missing ${requiredParameter} property.`})
+        .send({error: `Expected format: {band: <String>, date: <String>}. You are missing a required parameter of ${requiredParameter}.`})
     }
   }
   database('concerts').insert(concert, 'id')
