@@ -1,10 +1,10 @@
 const mockVenues = [
   {
-    name: "Soiled Dove Underground",
+    name: "Civic Center Park",
     address: '7401 E 1st Ave, Denver, CO 80230',
   }, 
   {
-    name: "Cervantes' Masterpiece Ballroom",
+    name: "Smash Mouth",
     address: '2637 Welton St, Denver, CO 80205'
   }, 
   {
@@ -15,20 +15,17 @@ const mockVenues = [
 
 const mockConcerts = [
   { 
-    band: 'Stanley Jordon',
-      date: 'Jan 18, 2019',
-      venue: 'Soiled Dove Underground'
+    band: 'Everclear',
+    date: 'Sep 03, 2018',
+    venue: 'Civic Center Park'
   },
   { 
-    band: 'Lucid Vision',
-    date: 'Jan 18, 2019',
-    venue: 'Cervantes\' Masterpiece Ballroom'
-  },
-  { 
-    band: 'Dreamers Delight',
-    date: 'Jan 12, 2019',
-    venue: 'Larimer Lounge'
+    band: 'Smash Mouth',
+    date: 'Sep 03, 2018',
+    venue: 'Civic Center Park'
   }
 ]
+
+module.exports = {mockVenues, mockConcerts}
 
 module.exports = {mockVenues, mockConcerts}
