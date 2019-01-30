@@ -1,3 +1,5 @@
+
+
 const chai = require('chai');
 const should = chai.should();
 const chaiHttp = require('chai-http');
@@ -10,21 +12,21 @@ chai.use(chaiHttp);
 
 describe('API Routes', () => {
 
-  before(done => {
-      database.migrate.latest()
-    .then(() => {
-       database.seed.run()
-    })
-    done();
-  });
-  
-  beforeEach(done => {
-      database.seed.run()
-    done();
-  });
-
   describe('/api/v1/venues', () => {
-    it('GET: should return all of the venues', () => {
+    beforeEach(done => {
+      database.migrate.rollback()
+        .then(() => {
+          database.migrate.latest()
+            .then(() => {
+              return database.seed.run()
+                .then(() => {
+                  done();
+                })
+            })
+        })
+    })  
+
+    it.skip('GET: should return all of the venues', done => {
       chai.request(server)
       .get('/api/v1/venues')
       .end((err, response) => {
@@ -39,47 +41,164 @@ describe('API Routes', () => {
       })
     })
 
-    it('posts successfully', () => {
-      
+    it('posts successfully', done => {
+      done()
     })
-    it('post sad path', () => {
-      
+    it('post sad path', done => {
+      done()
     })
   })
 
   describe('/api/v1/concerts', () => {
-    it('GET: should return all of the concerts', () => {
+    beforeEach(done => {
+      database.migrate.rollback()
+        .then(() => {
+          database.migrate.latest()
+            .then(() => {
+              return database.seed.run()
+                .then(() => {
+                  done();
+                })
+            })
+        })
+    })
+   
 
+    it('GET: should return all of the concerts', done => {
+      done()
     })
 
-    it('posts successfully', () => {
-      
+    it('posts successfully', done => {
+      done()
     })
 
-    it('post sad path', () => {
-      
+    it('post sad path', done => {
+      done()
+    })
+  })
+
+
+  describe('/api/v1/venues/:id', () => {
+
+    beforeEach(done => {
+      database.migrate.rollback()
+        .then(() => {
+          database.migrate.latest()
+            .then(() => {
+              return database.seed.run()
+                .then(() => {
+                  done();
+                })
+            })
+        })
+    })
+   
+    let mockReq = {
+      "name": "Venue1",
+      "address": "1 Street"
+    }
+    let incorrectReq = {
+      "name": "Venue2"
+    }
+
+    it('should return status of 202 if put is successful', done => {
+      chai.request(server)
+      .put('/api/v1/venues/800')
+      .send(mockReq)
+      .end((err, response) => {
+      response.should.have.status(202)
+      response.should.be.json
+      response.should.be.a('object')
+      response.body.should.have.property('name')
+      response.body.should.have.property('address')
+      response.body.should.have.property('id')
+      done()
+      })
+    })
+
+    it('should return status 404 if put does not include venue id', done => {
+      chai.request(server)
+      .put('/api/v1/venues/')
+      .send(incorrectReq)
+      .end((err, response) => {
+      response.should.have.status(404)
+      done()
+      })
+    })
+  
+    it('should delete a venue and return status 202', done => {
+      chai.request(server)
+      .delete('/api/v1/venues/101')
+      .end((err, response) => {
+        response.should.have.status(202)
+        // response.should.be.json
+        response.should.be.a('object')
+        done()
+      })
+    })
+
+    it('should return status 404 if delete venue does not have required param', done => {
+      chai.request(server)
+      .delete('/api/v1/venues/')
+      .end((err, response) => {
+        response.should.have.status(404)
+        done()
+    })
+  })
+})
+  
+  describe('/api/v1/concert/:id', () => {
+    let mockRequest = {
+      "band": "Drake",
+      "date": "02/01/02",
+      venue: '3 Kings Tavern'
+    }
+
+    beforeEach(done => {
+      database.migrate.rollback()
+        .then(() => {
+          database.migrate.latest()
+            .then(() => {
+              return database.seed.run()
+                .then(() => {
+                  done();
+                })
+            })
+        })
+    })
+
+    it('should update a concert with response 202', done => {
+      chai.request(server)
+      .put('/api/v1/concerts/3')
+      .send(mockRequest)
+      .end((err, response) => {
+        response.should.have.status(202)
+        response.should.be.json
+        response.should.be.a('object')
+        response.body.should.have.property('date')
+        response.body.should.have.property('band')
+        done()
+        })
+    })
+  
+    it('successfully deletes a concert', done => {
+      chai.request(server)
+      .delete('/api/v1/concerts/2')
+      .end((err, response) => {
+        response.should.have.status(202)
+        response.should.be.json
+        response.should.be.a('object')
+        done()
+      })
+    })
+    it('response has status 404 if the path does not have an id', done => {
+      chai.request(server)
+      .delete('/api/v1/concerts/')
+      .end((err, response) => {
+        response.should.have.status(404)
+        done()
+      })
     })
   })
 });
 
-
-describe('/api/v1/venues/:id', () => {
-  it('PUT: should edit venue data', () => {
-
-  })
-
-  it('deletes a venue', () => {
-
-  })
-})
-
-describe('/api/v1/concert/:id', () => {
-  
-  it('PUT: should edit concert data', () => {
-
-  })
-
-  it('deletes a concert', () => {
-
-  })
-})

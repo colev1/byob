@@ -1,10 +1,10 @@
 const mockVenues = [
   {
-    name: "Soiled Dove Underground",
+    name: "Civic Center Park",
     address: '7401 E 1st Ave, Denver, CO 80230',
   }, 
   {
-    name: "Cervantes' Masterpiece Ballroom",
+    name: "Smash Mouth",
     address: '2637 Welton St, Denver, CO 80205'
   }, 
   {
@@ -23,12 +23,6 @@ const mockConcerts = [
     band: 'Smash Mouth',
     date: 'Sep 03, 2018',
     venue: 'Civic Center Park'
-  },
-  { 
-    band:
-     'Cyanotic',
-    date: 'Sep 01, 2018',
-    venue: '3 Kings Tavern'
   }
 ]
 
