@@ -11,21 +11,15 @@ chai.use(chaiHttp);
 describe('API Routes', () => {
 
   before(done => {
-    database.migrate.rollback()
+    database.migrate.latest()
     .then(() => {
-      database.migrate.latest()
-    })
-    .then(() => {
-       database.seed.run()
+      database.seed.run()
     })
     done();
   });
   
   beforeEach(done => {
-    database.migrate.rollback()
-    .then(() => {
-      database.migrate.latest()
-    })
+    database.migrate.latest()
     .then(() => {
       database.seed.run()
     })
@@ -33,21 +27,22 @@ describe('API Routes', () => {
   });
 
   describe('/api/v1/venues', () => {
-    it('GET: should return all of the venues', () => {
+    it('GET: should return all of the venues', done => {
       chai.request(server)
       .get('/api/v1/venues')
       .end((err, response) => {
         response.should.have.status(200)
         response.should.be.json
-        response.should.be.a('array')
+        response.body.should.be.a('array')
         response.body.length.should.equal(3)
         response.body[0].should.have.property('name')
         response.body[0].should.have.property('address')
         response.body[0].should.have.property('id')
+        done()
       })
     })
 
-    it('POST: posts successfully', () => {
+    it('POST: posts successfully', done => {
       chai.request(server)
       .post('/api/v1/venues')
       .send({
@@ -57,11 +52,24 @@ describe('API Routes', () => {
       .end((err, response) => {
         response.should.have.status(201)
         response.should.be.json
-        response.should.be.a('object')
+        response.body.should.be.a('object')
+        response.body.should.have.property('name')
+        response.body.should.have.property('address')
+        response.body.should.have.property('id')
+        done()
       })
     })
-    it('post sad path', () => {
-      
+
+    it('post sad path', done => {
+      chai.request(server)
+      .post('/api/v1/venues')
+      .send({
+        name: 'Paramount'
+      })
+      .end((err, response)=> {
+        response.should.have.status(422)
+        done();
+      })
     })
   })
 
