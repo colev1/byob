@@ -6,11 +6,8 @@ const app = express();
 const bodyParser = require('body-parser')
 
 app.use(bodyParser.json())
-app.set('port', process.env.PORT || 3000)
 
-app.listen(app.get('port'), () => {
-  console.log(`BYOB is running on ${app.get('port')}`)
-})
+app.set('port', process.env.PORT || 3000)
 
 //get all venues
 app.get('/api/v1/venues', (request, response) => {
@@ -163,5 +160,8 @@ app.delete('/api/v1/concerts/:id', (request, response) => {
     })
 })
 
+app.listen(app.get('port'), () => {
+  console.log(`BYOB is running on ${app.get('port')}`)
+})
 
 module.exports = app;

@@ -4,6 +4,8 @@ const chaiHttp = require('chai-http');
 const server = require('../server.js');
 const configuration = require('../knexfile')['test'];
 const database = require('knex')(configuration);
+require('events').EventEmitter.prototype._maxListeners = 100;
+
 
 chai.use(chaiHttp);
 
@@ -74,7 +76,7 @@ describe('API Routes', () => {
   })
 
   describe('/api/v1/concerts', () => {
-    
+
     it('GET: should return all of the concerts', (done) => {
       chai.request(server)
       .get('/api/v1/concerts')
