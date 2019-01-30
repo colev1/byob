@@ -1,29 +1,34 @@
+process.env.NODE_ENV = 'test'
+
 const chai = require('chai');
 const should = chai.should();
 const chaiHttp = require('chai-http');
 const server = require('../server.js');
-const environment = process.env.NODE_ENV || 'test';
-const configuration = require('../knexfile')[environment];
+const configuration = require('../knexfile')['test'];
 const database = require('knex')(configuration);
 
 chai.use(chaiHttp);
 
 describe('API Routes', () => {
 
-  before(done => {
-    database.migrate.latest()
-    .then(() => {
-      database.seed.run()
-    })
-    done();
-  });
+  // before(done => {
+  //   database.migrate.rollback()
+  //   .then(() => {
+  //     database.migrate.latest()
+  //   })
+  //   .then(() => {
+  //     database.seed.run()
+  //   })
+  //   .then(() => {
+  //     done();
+  //   })
+  // });
   
   beforeEach(done => {
-    database.migrate.latest()
+    database.seed.run()
     .then(() => {
-      database.seed.run()
+      done();
     })
-    done();
   });
 
   describe('/api/v1/venues', () => {
@@ -77,11 +82,10 @@ describe('API Routes', () => {
   })
 
   describe('/api/v1/concerts', () => {
-    it('GET: should return all of the concerts', () => {
+    it('GET: should return all of the concerts', (done) => {
       chai.request(server)
       .get('/api/v1/concerts')
       .end((err, response) => {
-        console.log(response.body)
         response.should.have.status(200)
         response.should.be.json
         response.body.should.be.a('array')
@@ -93,9 +97,9 @@ describe('API Routes', () => {
       })
     })
 
-    it('POST: posts new concert successfully', () => {
+    it('POST: posts new concert successfully', (done) => {
       chai.request(server)
-      .get('/api/v1/venues/3/concerts')
+      .post('/api/v1/venues/3/concerts')
       .send({
         band: 'Beyonce',
         date: '01/01/01'
@@ -112,6 +116,7 @@ describe('API Routes', () => {
         response.body.data.should.equal('01/01/01')
         response.body.should.have.property('venue_id')
         response.body.venue_id.should.equal(3)
+        done()
       })
     })
 
