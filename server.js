@@ -166,3 +166,5 @@ app.delete('/api/v1/concerts/:id', (request, response) => {
       response.status(501).json({error})
     })
 })
+
+module.exports = app;
