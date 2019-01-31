@@ -115,7 +115,8 @@ const venues = [
 
 
 
-const concerts = [ { 
+const concerts = [ 
+  { 
   band: 'Stanley Jordon',
     date: 'Jan 18, 2019',
     venue: 'Soiled Dove Underground'
@@ -702,8 +703,7 @@ const concerts = [ {
     venue: 'The Ogden Theatre'
   },
   { 
-    band:
-     'Cardi B',
+    band: 'Cardi B',
     date: 'Sep 07, 2018',
     venue: 'The Pepsi Center'
   },
@@ -758,8 +758,7 @@ const concerts = [ {
     venue: 'Civic Center Park'
   },
   { 
-    band:
-     'Cyanotic',
+    band: 'Cyanotic',
     date: 'Sep 01, 2018',
     venue: '3 Kings Tavern'
   },

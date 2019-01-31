@@ -1,0 +1,31 @@
+module.exports = {
+    "env": {
+      "browser": true,
+      "commonjs": true,
+      "es6": true,
+      "mocha": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": { 
+      "sourceType": "module",
+      "ecmaVersion": 9 
+    },
+    "rules": {
+      "eqeqeq": ["error", "always"],
+      "brace-style": "error",
+      "comma-spacing": ["warn", { "before": false, "after": true }],
+      "curly": "error",
+      "semi-spacing": ["error", { "before": false, "after": true }],
+      "indent": ["warn", 2],
+      "key-spacing": ["error", { "beforeColon": false, "afterColon": true }],
+      "keyword-spacing": ["error", { "before": true, "after": true }],
+      "linebreak-style": ["error", "unix"],
+      "new-cap": ["error", { "newIsCap": true }],
+      "object-shorthand": ["error", "always"],
+      "space-before-blocks": ["error", { "functions": "always", "keywords": "always", "classes": "always" }],
+      "space-infix-ops": ["error", { "int32Hint": false }],
+      "no-undef": ["off"],
+      "no-console": ["off"],
+      "no-unused-vars": ["off"]
+    }
+  }

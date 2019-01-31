@@ -22,26 +22,28 @@ app.get('/api/v1/venues', (request, response) => {
 
 //get all concerts
 app.get('/api/v1/concerts', (request, response) => {
-  if(request.query.venue) {
+  if (request.query.venue) {
     const venue = request.query.venue
     database('concerts')
-    .select('venue_id', 'band', 'date', 'id')
-    .where('venue_id', venue)
-    .then(concerts => {
-      if(concerts.length) {
-        return response.status(200).json({concerts})
-      } else {
-        return response.status(404).json({error: 'There are no concerts that match that venue'})
-      }
-    })
+      .select('venue_id', 'band', 'date', 'id')
+      .where('venue_id', venue)
+      .then(concerts => {
+        if (concerts.length) {
+          return response.status(200).json({concerts})
+        } else {
+          return response.status(404).json(
+            {error: 'There are no concerts that match that venue'}
+          )
+        }
+      })
   } else {
     database('concerts').select()
-    .then(concerts => {
-      response.status(200).json(concerts)
-    })
-    .catch(error => {
-      response.status(500).json({error})
-    })
+      .then(concerts => {
+        response.status(200).json(concerts)
+      })
+      .catch(error => {
+        response.status(500).json({error})
+      })
   }
 })
 
@@ -72,7 +74,6 @@ app.get('/api/v1/concerts/:id', (request, response) => {
 //get all concerts based on a certain venue
 app.get('/api/v1/concerts', (request, response) => {
   const venue = request.query.venue
-  console.log(1)
 
   database('concerts')
     .select('venue_id')
@@ -85,10 +86,12 @@ app.get('/api/v1/concerts', (request, response) => {
 //create a new venue
 app.post('/api/v1/venues', (request, response) => {
   const venue = request.body
-  for(let requiredParameter of ['name', 'address']) {
-    if(!venue[requiredParameter]) {
+  for (let requiredParameter of ['name', 'address']) {
+    if (!venue[requiredParameter]) {
       return response.status(422)
-        .send({error: `Expected format: {name: <String>, address: <String>}. You are missing a required parameter of ${requiredParameter}.`})
+        .send(
+          {error: `Expected format: {name: <String>, address: <String>}. You are missing a required parameter of ${requiredParameter}.`}
+        )
     }
   }
   database('venues').insert(venue, 'id')
@@ -105,10 +108,12 @@ app.post('/api/v1/venues/:id/concerts', (request, response) => {
   const venueId = parseInt(request.params.id)
   const concert = {...request.body, venue_id: venueId}
 
-  for(let requiredParameter of ['band', 'date']) {
-    if(!concert[requiredParameter]) {
+  for (let requiredParameter of ['band', 'date']) {
+    if (!concert[requiredParameter]) {
       return response.status(422)
-        .send({error: `Expected format: {band: <String>, date: <String>}. You are missing a required parameter of ${requiredParameter}.`})
+        .send(
+          {error: `Expected format: {band: <String>, date: <String>}. You are missing a required parameter of ${requiredParameter}.`}
+        )
     }
   }
   database('concerts').insert(concert, 'id')
@@ -129,7 +134,7 @@ app.put('/api/v1/venues/:id', (request, response) => {
     .where('id', venueId)
     .update({name: venue.name, address: venue.address})
     .then((updatedVenue) => {
-      if(updatedVenue) {
+      if (updatedVenue) {
         response.status(202).json({...venue, id: venueId})
       } else {
         response.status(404).json(`Cannot find venue with id ${venueId}`)
@@ -168,17 +173,17 @@ app.delete('/api/v1/venues/:id', (request, response) => {
         .where('id', venueId)
         .del()
         .then((venue) => {
-          if(venue) {
+          if (venue) {
             response.status(202).json({venue})
           } else {
-          response.status(404).json(`Venue with id ${venueId} does not exist`)
+            response.status(404).json(`Venue with id ${venueId} does not exist`)
           }
         })
         .catch(error => {
-        response.status(501).json({error})
-      })
+          response.status(501).json({error})
+        })
     })
-  })
+})
 
 //delete a concert
 app.delete('/api/v1/concerts/:id', (request, response) => {
@@ -188,7 +193,7 @@ app.delete('/api/v1/concerts/:id', (request, response) => {
     .where('id', concertId)
     .del()
     .then((concert) => {
-      if(concert) {
+      if (concert) {
         response.status(202).json({id: concertId})
       } else {
         response.status(404).json(`Concert with id ${concertId} does not exist`)
