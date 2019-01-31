@@ -55,9 +55,9 @@ This endpoint will return an array a single venue object. The id of the venue is
 example response: 
 ```
 {
-    "name": "Soiled Dove Underground",
-    "address": '7401 E 1st Ave, Denver, CO 80230',
-  } 
+ "name": "Soiled Dove Underground",
+ "address": '7401 E 1st Ave, Denver, CO 80230',
+} 
  ```
 
 ### * POST - Post a new venue `/api/v1/venues`
@@ -65,9 +65,12 @@ example response:
 This endpoint allows users to add a new venue to the database.  The request must contain a `name` and `address` property in order for the post to be successful. If these properties are not included, an error with status code 422 will be returned.
 
 example request: 
-`{   "name": "The Pepsi Center",
-    "address": "1000 Chopper Cir, Denver, CO"
-  }`
+```
+{   
+ "name": "The Pepsi Center",
+ "address": "1000 Chopper Cir, Denver, CO"
+}
+```
   
 ### * PUT - Update an existing venue `/api/v1/venues/:id`
 
@@ -75,8 +78,9 @@ This endpoint allows users to update an existing venue in the database. The requ
 
 example request: 
 ```
-{   "name": "The Pepsi Center",
-    "address": "123 Denver St."
+{  
+  "name": "The Pepsi Center",
+  "address": "123 Denver St."
   }
 ```
 
@@ -113,11 +117,11 @@ This endpoint will return an array a single concert. The id of the concert is co
 
 example response: 
 ```
-{ 
+ { 
     "band": 'Bruno Mars',
     "date": 'Sep 07, 2018',
     "venue": 'The Pepsi Center' 
-  } 
+ } 
 ```
 
 ### * POST - Create a new concert `/api/v1/venues/:id/concerts`
@@ -125,7 +129,8 @@ example response:
 This endpoint allows users to add a new concert to the database to a specific venue.  The request must contain a `band` and `date` property in order for the post to be successful. If these properties are not included, an error with status code 500 will be returned.
 
 example request: 
-```{ 
+```
+{ 
     "band": "Dead Kennedys",
     "date": "Sep 07, 2018"
   }
@@ -136,8 +141,10 @@ example request:
 This endpoint allows users to update an existing concert in the database. The request should contain a `band` and `date` property.
 
 example request: 
-```{   "band": "Maroon 5",
-    "address": "01/01/10"
+```
+{   
+   "band": "Maroon 5",
+   "address": "01/01/10"
   }
 ```
 
