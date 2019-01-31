@@ -111,6 +111,26 @@ example response:
 ] 
 ```
 
+### * GET - Get all concerts by specified venue `/api/v1/concerts?venue=venue_id`
+
+This endpoint will return an array that includes all concerts that took place at a venue that is specificied by the user. The venue id in the query corresponds to the venue that is specificied. Each concert in the response contains a `band `, `date`, and `venue` property.
+
+example response: 
+```
+[
+  { 
+    band: 'Twenty One Pilots',
+    date: 'Nov 19, 2018',
+    venue: 'The Pepsi Center' 
+  },
+  { 
+    band: 'Max Frost',
+    date: 'Nov 20, 2018',
+    venue: 'The Pepsi Center' 
+  }
+] 
+```
+
 ### * GET - Get specific concert `/api/v1/concerts/:id`
 
 This endpoint will return an array a single concert. The id of the concert is contained in the path. 
