@@ -159,7 +159,7 @@ describe('API Routes', () => {
       })
     })
 
-    it('post sad path', done => {
+    it('unsuccessful post to concerts', done => {
       chai.request(server)
       .post('/api/v1/venues/2/concerts')
       .send({
@@ -187,7 +187,7 @@ describe('API Routes', () => {
 
     it('should return status of 202 if put is successful', done => {
       chai.request(server)
-      .put('/api/v1/venues/800')
+      .put('/api/v1/venues/1')
       .send(mockReq)
       .end((err, response) => {
       response.should.have.status(202)
@@ -200,19 +200,21 @@ describe('API Routes', () => {
       })
     })
 
-    it('should return status 404 if put does not include venue id', done => {
+    it('should return status 404 if venue does not exist with specificied id', done => {
       chai.request(server)
-      .put('/api/v1/venues/')
+      .put('/api/v1/venues/400')
       .send(incorrectReq)
       .end((err, response) => {
-      response.should.have.status(404)
+        response.should.have.status(404)
+        response.should.have.property('error')
+        response.body.should.equal(`Cannot find venue with id 400`)
       done()
       })
     })
   
     it('should delete a venue and return status 202', done => {
       chai.request(server)
-      .delete('/api/v1/venues/101')
+      .delete('/api/v1/venues/1')
       .end((err, response) => {
         response.should.have.status(202)
         response.should.be.a('object')
@@ -220,11 +222,13 @@ describe('API Routes', () => {
       })
     })
 
-    it('should return status 404 if delete venue does not have required param', done => {
+    it('should return status 404 if deleted venue id does not exist', done => {
       chai.request(server)
-      .delete('/api/v1/venues/')
+      .delete('/api/v1/venues/800')
       .end((err, response) => {
         response.should.have.status(404)
+        response.should.be.json;
+        response.body.should.equal('Venue with id 800 does not exist')
         done()
     })
   })
@@ -261,11 +265,13 @@ describe('API Routes', () => {
         done()
       })
     })
-    it('response has status 404 if the path does not have an id', done => {
+    it('response has status 404 if a concert with that id does not exist', done => {
       chai.request(server)
-      .delete('/api/v1/concerts/')
+      .delete('/api/v1/concerts/900')
       .end((err, response) => {
         response.should.have.status(404)
+        response.should.be.json;
+        response.body.should.equal('Concert with id 900 does not exist')
         done()
       })
     })

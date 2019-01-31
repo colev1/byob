@@ -128,8 +128,12 @@ app.put('/api/v1/venues/:id', (request, response) => {
   database('venues')
     .where('id', venueId)
     .update({name: venue.name, address: venue.address})
-    .then(() => {
-      response.status(202).json({...venue, id: venueId})
+    .then((updatedVenue) => {
+      if(updatedVenue) {
+        response.status(202).json({...venue, id: venueId})
+      } else {
+        response.status(404).json(`Cannot find venue with id ${venueId}`)
+      }
     })
     .catch(error => {
       response.status(422).json({error})
@@ -164,7 +168,11 @@ app.delete('/api/v1/venues/:id', (request, response) => {
         .where('id', venueId)
         .del()
         .then((venue) => {
-          response.status(202).json({venue})
+          if(venue) {
+            response.status(202).json({venue})
+          } else {
+          response.status(404).json(`Venue with id ${venueId} does not exist`)
+          }
         })
         .catch(error => {
         response.status(501).json({error})
@@ -180,7 +188,11 @@ app.delete('/api/v1/concerts/:id', (request, response) => {
     .where('id', concertId)
     .del()
     .then((concert) => {
-      response.status(202).json({id: concertId})
+      if(concert) {
+        response.status(202).json({id: concertId})
+      } else {
+        response.status(404).json(`Concert with id ${concertId} does not exist`)
+      }
     })
     .catch(error => {
       response.status(501).json({error})
