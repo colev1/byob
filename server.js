@@ -6,11 +6,8 @@ const app = express();
 const bodyParser = require('body-parser')
 
 app.use(bodyParser.json())
-app.set('port', process.env.PORT || 3000)
 
-app.listen(app.get('port'), () => {
-  console.log(`BYOB is running on ${app.get('port')}`)
-})
+app.set('port', process.env.PORT || 3000)
 
 //get all venues
 app.get('/api/v1/venues', (request, response) => {
@@ -135,20 +132,18 @@ app.delete('/api/v1/venues/:id', (request, response) => {
   database('concerts')
     .where('venue_id', venueId)
     .del()
-    .then((concerts) => {
-      response.status(202).json({concerts})
+    .then( () => {
+      database('venues')
+        .where('id', venueId)
+        .del()
+        .then((venue) => {
+          response.status(202).json({venue})
+        })
+        .catch(error => {
+        response.status(501).json({error})
+      })
     })
-
-  database('venues')
-    .where('id', venueId)
-    .del()
-    .then((venue) => {
-      response.status(202).json({venue})
-    })
-    .catch(error => {
-      response.status(501).json({error})
-    })
-})
+  })
 
 //delete a concert
 app.delete('/api/v1/concerts/:id', (request, response) => {
@@ -165,5 +160,8 @@ app.delete('/api/v1/concerts/:id', (request, response) => {
     })
 })
 
+app.listen(app.get('port'), () => {
+  console.log(`BYOB is running on ${app.get('port')}`)
+})
 
 module.exports = app;

@@ -1,30 +1,30 @@
-process.env.NODE_ENV = 'test'
-
 const chai = require('chai');
 const should = chai.should();
 const chaiHttp = require('chai-http');
 const server = require('../server.js');
 const configuration = require('../knexfile')['test'];
 const database = require('knex')(configuration);
+require('events').EventEmitter.prototype._maxListeners = 100;
+
 
 chai.use(chaiHttp);
 
 describe('API Routes', () => {
+  
+      beforeEach(done => {
+        database.migrate.rollback()
+          .then(() => {
+            database.migrate.latest()
+              .then(() => {
+                return database.seed.run()
+                  .then(() => {
+                    done();
+                  })
+              })
+          })
+      })
 
   describe('/api/v1/venues', () => {
-
-    beforeEach(done => {
-      database.migrate.rollback()
-        .then(() => {
-          database.migrate.latest()
-            .then(() => {
-              return database.seed.run()
-                .then(() => {
-                  done();
-                })
-            })
-        })
-    })
 
     it('GET: should return all of the venues', done => {
       chai.request(server)
@@ -76,18 +76,6 @@ describe('API Routes', () => {
   })
 
   describe('/api/v1/concerts', () => {
-    beforeEach(done => {
-      database.migrate.rollback()
-        .then(() => {
-          database.migrate.latest()
-            .then(() => {
-              return database.seed.run()
-                .then(() => {
-                  done();
-                })
-            })
-        })
-    })
 
     it('GET: should return all of the concerts', (done) => {
       chai.request(server)
@@ -106,10 +94,10 @@ describe('API Routes', () => {
 
     it('POST: posts new concert successfully', (done) => {
       chai.request(server)
-      .post('/api/v1/venues/3/concerts')
+      .post('/api/v1/venues/1/concerts')
       .send({
-        band: 'Beyonce',
-        date: '01/01/01'
+        "band": "Beyonce",
+        "date": "01/01/01"
       })
       .end((err, response) => {
         response.should.have.status(201)
@@ -119,7 +107,7 @@ describe('API Routes', () => {
         response.body.should.have.property('band')
         response.body.band.should.equal('Beyonce')
         response.body.should.have.property('date')
-        response.body.data.should.equal('01/01/01')
+        response.body.date.should.equal('01/01/01')
         response.body.should.have.property('venue_id')
         done()
       })
@@ -133,19 +121,6 @@ describe('API Routes', () => {
 
   describe('/api/v1/venues/:id', () => {
 
-    beforeEach(done => {
-      database.migrate.rollback()
-        .then(() => {
-          database.migrate.latest()
-            .then(() => {
-              return database.seed.run()
-                .then(() => {
-                  done();
-                })
-            })
-        })
-    })
-   
     let mockReq = {
       "name": "Venue1",
       "address": "1 Street"
@@ -184,7 +159,6 @@ describe('API Routes', () => {
       .delete('/api/v1/venues/101')
       .end((err, response) => {
         response.should.have.status(202)
-        // response.should.be.json
         response.should.be.a('object')
         done()
       })
@@ -206,19 +180,6 @@ describe('API Routes', () => {
       "date": "02/01/02",
       venue: '3 Kings Tavern'
     }
-
-    beforeEach(done => {
-      database.migrate.rollback()
-        .then(() => {
-          database.migrate.latest()
-            .then(() => {
-              return database.seed.run()
-                .then(() => {
-                  done();
-                })
-            })
-        })
-    })
 
     it('should update a concert with response 202', done => {
       chai.request(server)
