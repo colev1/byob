@@ -4,10 +4,25 @@ const chaiHttp = require('chai-http');
 const server = require('../server.js');
 const configuration = require('../knexfile')['test'];
 const database = require('knex')(configuration);
+require('events').EventEmitter.prototype._maxListeners = 100;
+
 
 chai.use(chaiHttp);
 
 describe('API Routes', () => {
+  
+      beforeEach(done => {
+        database.migrate.rollback()
+          .then(() => {
+            database.migrate.latest()
+              .then(() => {
+                return database.seed.run()
+                  .then(() => {
+                    done();
+                  })
+              })
+          })
+      })
 
   beforeEach(done => {
     database.migrate.rollback()
@@ -115,8 +130,8 @@ describe('API Routes', () => {
       chai.request(server)
       .post('/api/v1/venues/2/concerts')
       .send({
-        band: 'Beyonce',
-        date: '01/01/01'
+        "band": "Beyonce",
+        "date": "01/01/01"
       })
       .end((err, response) => {
         response.should.have.status(201)
@@ -150,7 +165,6 @@ describe('API Routes', () => {
 
 
   describe('/api/v1/venues/:id', () => {
-   
     let mockReq = {
       "name": "Venue1",
       "address": "1 Street"
@@ -189,7 +203,6 @@ describe('API Routes', () => {
       .delete('/api/v1/venues/101')
       .end((err, response) => {
         response.should.have.status(202)
-        // response.should.be.json
         response.should.be.a('object')
         done()
       })
