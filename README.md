@@ -34,7 +34,8 @@ This API contains information on 26 concert venues in Denver, Colorado, and 136 
 This endpoint will return an array of all venue objects.
 
 example response: 
-`[
+```
+[
   {
     "name": "Soiled Dove Underground",
     "address": '7401 E 1st Ave, Denver, CO 80230',
@@ -44,18 +45,20 @@ example response:
     "address": '2637 Welton St, Denver, CO 80205'
   } 
   ...
-] `
+] 
+```
 
 ### * GET - Get specific venue `/api/v1/venues/:id`
 
 This endpoint will return an array a single venue object. The id of the venue is contained in the path. 
 
 example response: 
-` {
+```
+{
     "name": "Soiled Dove Underground",
     "address": '7401 E 1st Ave, Denver, CO 80230',
   } 
-   `
+ ```
 
 ### * POST - Post a new venue `/api/v1/venues`
 
@@ -71,9 +74,11 @@ example request:
 This endpoint allows users to update an existing venue in the database. The request should contain a `name` and `address` property.
 
 example request: 
-`{   "name": "The Pepsi Center",
+```
+{   "name": "The Pepsi Center",
     "address": "123 Denver St."
-  }`
+  }
+```
 
 ### * DELETE - Delete an existing venue `/api/v1/venues/:id`
 
@@ -86,7 +91,8 @@ This endpoint allows users to delete an existing venue in the database. The id o
 This endpoint will return an array that includes all concert objects. Each concert object contains a `band `, `date`, and `venue` property.
 
 example response: 
-`[
+```
+[
   { 
     "band": 'Smash Mouth',
     "date": 'Sep 03, 2018',
@@ -98,37 +104,42 @@ example response:
     "venue": '3 Kings Tavern'
   } 
   ...
-] `
+] 
+```
 
 ### * GET - Get specific concert `/api/v1/concerts/:id`
 
 This endpoint will return an array a single concert. The id of the concert is contained in the path. 
 
 example response: 
-` { 
+```
+{ 
     "band": 'Bruno Mars',
     "date": 'Sep 07, 2018',
     "venue": 'The Pepsi Center' 
-  } `
+  } 
+```
 
 ### * POST - Create a new concert `/api/v1/venues/:id/concerts`
 
 This endpoint allows users to add a new concert to the database to a specific venue.  The request must contain a `band` and `date` property in order for the post to be successful. If these properties are not included, an error with status code 500 will be returned.
 
 example request: 
-`{ 
+```{ 
     "band": "Dead Kennedys",
     "date": "Sep 07, 2018"
-  }`
+  }
+```
   
 ### * POST - Update an existing concert `/api/v1/concerts/:id`
 
 This endpoint allows users to update an existing concert in the database. The request should contain a `band` and `date` property.
 
 example request: 
-`{   "band": "Maroon 5",
+```{   "band": "Maroon 5",
     "address": "01/01/10"
-  }`
+  }
+```
 
 ### * DELETE - Delete an existing venue `/api/v1/concerts/:id`
 
