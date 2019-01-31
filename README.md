@@ -2,17 +2,17 @@
 
 ## Table Of Contents 
 * [Description of API](#api-description)
-* Setup
-* Venues 
-* Concerts
-* Contributors
+* [Setup](#setup)
+* [Venues](#venues)
+* [Concerts](#concerts)
+* [Contributors](#contributors)
 
 
 # API Description
 
 This API contains information on 26 concert venues in Denver, Colorado, and 136 concerts that occured at these venues.  Each venue entry contains an address and venue name, while each concert entry contains a date, name of band that performed, and the venue where the concert took place.  The information was gathered using a web scraper on data from https://www.concertarchives.org/locations/denver-co.
 
-## Setup 
+# Setup 
 
 ### Setup server
 * `$ git clone https://github.com/colev1/byob byob`
@@ -27,7 +27,7 @@ This API contains information on 26 concert venues in Denver, Colorado, and 136 
 * `$ knex seed:run --env test`
 * `npm test` to run tests
 
-## VENUES
+# VENUES
 
 ### * GET - Get all venues `/api/v1/venues`
 
@@ -84,7 +84,7 @@ example request:
 
 This endpoint allows users to delete an existing venue in the database. The id of the venue to be deleted is a params of the request. If there is an error, a response with status 501 should be returned.
 
-## CONCERTS
+# CONCERTS
 
 ### * GET - Get all concerts `/api/v1/concerts`
 
@@ -145,6 +145,6 @@ example request:
 
 This endpoint allows users to delete an existing concert in the database. The id of the concert to be deleted is a params of the request. If there is an error, a response with status 501 should be returned.
 
-## Contributors
+# Contributors
 * Cole Vanacore @colev1
 * Kaylee Bunce @kayleenovak 
