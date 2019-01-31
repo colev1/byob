@@ -1,7 +1,13 @@
 language: node_js
 node_js:
-  - "node"
+- node
 services:
- - postgresql
+- postgresql
 before_script:
- - psql -c 'CREATE DATABASE tests;' -U postgres
+- psql -c 'CREATE DATABASE tests;' -U postgres
+deploy:
+  provider: heroku
+  api_key:
+    secure: NH41V/kSkd6nibuRcENnjvbjftw8BQJL6x8nqgKxEioUJLyJInnm31mC+HKPb/8BQk9r0bA4/xQD1dzGLVi8/DHubS1xB6L9jNxJuWjtEr4eiQ0tpMmqkGQDN2jnE23njYrOUzov0zna0LtqYACWMTiYt5TJUBn7pheVR98bfxaZV2yOxgUWU8UP1U4Dved0MQV642aCX+vTMgw84zdZGOv1wsluFw8wb1UkiDOXP+cSQ/0j7s7zvMvdpSW3TYj3XHixkpwTT3g4b/v6HQ22oRB0usUKyLChB7FNtBLzK7QXm0GgzoBv2KRQV7NNXFmTCfmSf4BYykW4k32v0DPsC4XT0Yl/sor5uH9S6Dboq5XLZdLhni85nnh6fWWfX20LeDZT80VJqafSi5pXKmVMbYwB+jEhowvZFibPA91b/SQ6pDQfgBaC4hcGlze5wN4ykPhsG8yOK26CYPFjW9oCC7F66PipYQPW6RhhJQ4cjIlADCMYe3xxP6CNEJwNXyx8kjgUTBUMhl7stod/Tt1d/m/XmYLDGnobg3FDCDZrkugXZwrmlrW+o44dBBJVtopyyJhmtHeZ3NPpVmcO3lkTr49GPakZtcxcpfp4Ob7tQJMZI3N1oz0uO6/qzXwNZEQQByKQMGGpKX1xs67kQWbvFNw8Rdpqj0AtDRnTjIxSg88=
+  app: byob-concerts
+  skip_cleanup: true
