@@ -25,7 +25,7 @@ app.get('/api/v1/concerts', (request, response) => {
   if(request.query.venue) {
     const venue = request.query.venue
     database('concerts')
-    .select('venue_id', 'band', 'date')
+    .select('venue_id', 'band', 'date', 'id')
     .where('venue_id', venue)
     .then(concerts => {
       response.status(200).json({concerts})
