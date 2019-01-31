@@ -24,6 +24,19 @@ describe('API Routes', () => {
           })
       })
 
+  beforeEach(done => {
+    database.migrate.rollback()
+      .then(() => {
+        database.migrate.latest()
+          .then(() => {
+            return database.seed.run()
+              .then(() => {
+                done();
+              })
+          })
+      })
+  })
+
   describe('/api/v1/venues', () => {
 
     it('GET: should return all of the venues', done => {
@@ -92,9 +105,30 @@ describe('API Routes', () => {
       })
     })
 
+    it('GET: should return all the concerts that has the venue id specified in the query parameter', (done) => {
+      chai.request(server)
+      .get('/api/v1/concerts?venue=1')
+      .end((err, response) => {
+        response.should.have.status(200)
+        response.should.be.json
+        response.body.should.be.a('object')
+        response.body.concerts.should.be.a('array')
+        response.body.concerts.length.should.equal(2)
+        response.body.concerts[0].should.have.property('venue_id')
+        response.body.concerts[0].venue_id.should.equal(1)
+        response.body.concerts[0].should.have.property('id')
+        response.body.concerts[0].id.should.equal(1)
+        response.body.concerts[0].should.have.property('band')
+        response.body.concerts[0].band.should.equal('Everclear')
+        response.body.concerts[0].should.have.property('date')
+        response.body.concerts[0].date.should.equal('Sep 03, 2018')
+        done()
+      })
+    })
+
     it('POST: posts new concert successfully', (done) => {
       chai.request(server)
-      .post('/api/v1/venues/1/concerts')
+      .post('/api/v1/venues/2/concerts')
       .send({
         "band": "Beyonce",
         "date": "01/01/01"
@@ -114,13 +148,23 @@ describe('API Routes', () => {
     })
 
     it('post sad path', done => {
-      done()
+      chai.request(server)
+      .post('/api/v1/venues/2/concerts')
+      .send({
+        band: 'Paramount'
+      })
+      .end((err, response) => {
+        response.should.have.status(422)
+        response.should.be.json
+        response.should.have.property('error')
+        response.body.error.should.equal('Expected format: {band: <String>, date: <String>}. You are missing a required parameter of date.')
+        done();
+      })
     })
   })
 
 
   describe('/api/v1/venues/:id', () => {
-
     let mockReq = {
       "name": "Venue1",
       "address": "1 Street"
