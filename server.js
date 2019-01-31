@@ -28,7 +28,11 @@ app.get('/api/v1/concerts', (request, response) => {
     .select('venue_id', 'band', 'date', 'id')
     .where('venue_id', venue)
     .then(concerts => {
-      response.status(200).json({concerts})
+      if(concerts.length) {
+        return response.status(200).json({concerts})
+      } else {
+        return response.status(404).json({error: 'There are no concerts that match that venue'})
+      }
     })
   } else {
     database('concerts').select()

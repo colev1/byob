@@ -126,7 +126,19 @@ describe('API Routes', () => {
       })
     })
 
-    it('posts new concert successfully', (done) => {
+    it('GET: should throw an error if there are no concerts that match the venue', (done) => {
+      chai.request(server)
+      .get('/api/v1/concerts?venue=200')
+      .end((err, response) => {
+        response.should.have.status(404)
+        response.should.be.json
+        response.body.should.have.property('error')
+        response.body.error.should.equal('There are no concerts that match that venue')
+        done()
+      })
+    })
+
+    it('POST: posts new concert successfully', (done) => {
       chai.request(server)
       .post('/api/v1/venues/2/concerts')
       .send({
