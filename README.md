@@ -10,7 +10,9 @@
 
 # API Description
 
-This API contains information on 26 concert venues in Denver, Colorado, and 136 concerts that occured at these venues.  Each venue entry contains an address and venue name, while each concert entry contains a date, name of band that performed, and the venue where the concert took place.  The information was gathered using a web scraper on data from https://www.concertarchives.org/locations/denver-co, while addresses of venues were added manually.
+This API contains information on 26 concert venues in Denver, Colorado, and 136 concerts that occured at these venues.  Each venue entry contains an address and venue name, while each concert entry contains a date, name of band that performed, and the venue where the concert took place.  The information was gathered using a web scraper on data from [concert archives](https://www.concertarchives.org/locations/denver-co), while addresses of venues were added manually.
+
+#### [Heroku Link](https://byob-concerts.herokuapp.com/)
 
 # Setup 
 
