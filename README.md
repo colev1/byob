@@ -3,6 +3,7 @@
 ## Table Of Contents 
 * [Description of API](#api-description)
 * [Setup](#setup)
+* [Contribution Instructions](#contribution-instructions)
 * [Venues](#venues)
 * [Concerts](#concerts)
 * [Contributors](#contributors)
@@ -28,6 +29,22 @@ This API contains information on 26 concert venues in Denver, Colorado, and 136 
 * create database in psql named tests
 * `$ knex seed:run --env test`
 * `npm test` to run tests
+
+# Contribution Instructions
+
+We would love to see your contributions to our repo! Take a look at the issues to see how you can contribute.
+
+* Follow the Setup Instructions listed above
+* Create a new branch on your local machine to begin making changes
+`git checkout -b branch-name`
+* Before creating a pull request of your changes:
+  * Rebase to the master branch and address merge conflicts
+  * Ensure that your commit messages are concise and descriptive
+  * Mention which issue you are addressing in your PR
+  * Make sure each new piece of code is tested and all tests are passing: `npm test`
+  * Lint all new code: `npm run eslint`
+* If you open a pull request that is not yet complete, please indicate WIP in the title
+
 
 # VENUES
 
