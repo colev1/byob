@@ -17,18 +17,36 @@ This API contains information on 26 concert venues in Denver, Colorado, and 136 
 
 # Setup 
 
+### Dependencies
+* ESLint
+* Body Parser
+* Express
+* Knex
+* Postgres
+* Chai
+* ChaiHTTP
+* Mocha
+
 ### Setup server
-* `$ git clone https://github.com/colev1/byob byob`
-* cd into repo
-* install dependencies
-* `$ npm install `
+* `$ git clone https://github.com/colev1/byob repo-name`
+* cd into repo `$ cd repo-name`
+* install dependencies `$ npm install `
 * create database in psql named denver_concerts
-* `$ knex seed:run` 
+  * open psql in the terminal `$ psql`
+  * create a database `# CREATE DATABASE denver_concerts;`
+  * connect to that database `# \c denver_concerts`
+* migrate tables outside of psql `$ knex migrate:latest`
+* run seeds `$ knex seed:run` 
+* you can view both tables while in the database `# SELECT * FROM venues;` & `# SELECT * FROM concerts;`
 
 ### Setup testing
 * create database in psql named tests
-* `$ knex seed:run --env test`
-* `npm test` to run tests
+  * open psql in the terminal `$ psql`
+  * create a database `# CREATE DATABASE tests;`
+  * connect to that database `# \c tests`
+* migrate tables outside of psql `$ knex migrate:latest --env test`
+* run seeds `$ knex seed:run --env tests` 
+* `npm test` to run all tests
 
 # Contribution Instructions
 
