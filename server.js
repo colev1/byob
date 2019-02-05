@@ -9,31 +9,29 @@ app.use(bodyParser.json())
 
 app.set('port', process.env.PORT || 3000)
 
-//get venues by zip code
+//get all venues OR get venues by zip
 app.get('/api/v1/venues', (request, response) => {
   const zipcode = request.query.zipcode;
-  console.log(zipcode)
 
-  database('venues')
-    .where('address', 'like', `%${zipcode}%`)
-    .select()
-    .then(venues => {
-      response.status(200).json(venues)
-    })
-    .catch(error => {
-      response.status(500).json({error})
-    })
-})
-
-//get all venues
-app.get('/api/v1/venues', (request, response) => {
-  database('venues').select()
-    .then(venues => {
-      response.status(200).json(venues)
-    })
-    .catch(error => {
-      response.status(500).json({error})
-    })
+  if (zipcode) {
+    database('venues')
+        .where('address', 'like', `%${zipcode}%`)
+        .select()
+        .then(venues => {
+          response.status(200).json(venues)
+        })
+        .catch(error => {
+          response.status(500).json({error})
+        })
+  } else {
+    database('venues').select()
+      .then(venues => {
+        response.status(200).json(venues)
+      })
+      .catch(error => {
+        response.status(500).json({error})
+      })
+  }
 })
 
 //get all concerts
