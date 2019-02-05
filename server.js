@@ -9,6 +9,22 @@ app.use(bodyParser.json())
 
 app.set('port', process.env.PORT || 3000)
 
+//get venues by zip code
+app.get('/api/v1/venues', (request, response) => {
+  const zipcode = request.query.zipcode;
+  console.log(zipcode)
+
+  database('venues')
+    .where('address', 'like', `%${zipcode}%`)
+    .select()
+    .then(venues => {
+      response.status(200).json(venues)
+    })
+    .catch(error => {
+      response.status(500).json({error})
+    })
+})
+
 //get all venues
 app.get('/api/v1/venues', (request, response) => {
   database('venues').select()
@@ -204,21 +220,7 @@ app.delete('/api/v1/concerts/:id', (request, response) => {
     })
 })
 
-//get venues by zip code
-app.get('/api/v1/venues', (request, response) => {
-  const zipcode = request.query.zipcode;
-  console.log(zipcode)
 
-  database('venues')
-    .where('address', 'like', `%${zipcode}%`)
-    .select()
-    .then(venues => {
-      response.status(200).json({venues})
-    })
-    .catch(error => {
-      response.status(500).json({error})
-    })
-})
 
 app.listen(app.get('port'), () => {
   console.log(`BYOB is running on ${app.get('port')}`)
