@@ -86,6 +86,10 @@ describe('API Routes', () => {
           done();
         })
     })
+
+    it('should GET venues by zip code', done => {
+      chai.request(server)
+    })
   })
 
   describe('/api/v1/concerts', () => {

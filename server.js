@@ -204,13 +204,14 @@ app.delete('/api/v1/concerts/:id', (request, response) => {
     })
 })
 
-//get venues by area code
+//get venues by zip code
 app.get('/api/v1/venues', (request, response) => {
-  const areacode = request.query.areacode;
+  const zipcode = request.query.zipcode;
+  console.log(zipcode)
 
   database('venues')
-    .select('venues')
-    .where('address', 'like', '%areacode')
+    .where('address', 'like', `%${zipcode}%`)
+    .select()
     .then(venues => {
       response.status(200).json({venues})
     })
