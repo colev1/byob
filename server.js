@@ -15,14 +15,14 @@ app.get('/api/v1/venues', (request, response) => {
 
   if (zipcode) {
     database('venues')
-        .where('address', 'like', `%${zipcode}%`)
-        .select()
-        .then(venues => {
-          response.status(200).json(venues)
-        })
-        .catch(error => {
-          response.status(500).json({error})
-        })
+      .where('address', 'like', `%${zipcode}%`)
+      .select()
+      .then(venues => {
+        response.status(200).json(venues)
+      })
+      .catch(error => {
+        response.status(500).json({error})
+      })
   } else {
     database('venues').select()
       .then(venues => {
