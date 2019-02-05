@@ -204,6 +204,13 @@ app.delete('/api/v1/concerts/:id', (request, response) => {
     })
 })
 
+//get venues by area code
+app.get(`/api/v1/venues/areacode=${areacode}`, (request, response) => {
+  const areacode = request.query;
+
+  database('venues')
+})
+
 app.listen(app.get('port'), () => {
   console.log(`BYOB is running on ${app.get('port')}`)
 })
