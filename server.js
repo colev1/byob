@@ -205,10 +205,18 @@ app.delete('/api/v1/concerts/:id', (request, response) => {
 })
 
 //get venues by area code
-app.get(`/api/v1/venues/areacode=${areacode}`, (request, response) => {
-  const areacode = request.query;
+app.get('/api/v1/venues', (request, response) => {
+  const areacode = request.query.areacode;
 
   database('venues')
+    .select('venues')
+    .where('address', 'like', '%areacode')
+    .then(venues => {
+      response.status(200).json({venues})
+    })
+    .catch(error => {
+      response.status(500).json({error})
+    })
 })
 
 app.listen(app.get('port'), () => {
