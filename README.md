@@ -193,7 +193,7 @@ example request:
   }
 ```
   
-### * POST - Update an existing concert `/api/v1/concerts/:id`
+### * PUT - Update an existing concert `/api/v1/concerts/:id`
 
 This endpoint allows users to update an existing concert in the database. The request should contain a `band` and `date` property.
 
