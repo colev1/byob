@@ -3,10 +3,11 @@ const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
 const express = require('express')
 const app = express();
+const cors = require('cors')
 const bodyParser = require('body-parser')
 
+app.use(cors());
 app.use(bodyParser.json())
-
 app.set('port', process.env.PORT || 3000)
 
 //get all venues OR get venues by zip

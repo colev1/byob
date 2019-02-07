@@ -87,7 +87,7 @@ describe('API Routes', () => {
         })
     })
 
-    it.only('should GET venues by zip code', done => {
+    it('should GET venues by zip code', done => {
       chai.request(server)
         .get('/api/v1/venues?zipcode=80230')
         .end((err, response) => {
