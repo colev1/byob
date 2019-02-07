@@ -9,15 +9,29 @@ app.use(bodyParser.json())
 
 app.set('port', process.env.PORT || 3000)
 
-//get all venues
+//get all venues OR get venues by zip
 app.get('/api/v1/venues', (request, response) => {
-  database('venues').select()
-    .then(venues => {
-      response.status(200).json(venues)
-    })
-    .catch(error => {
-      response.status(500).json({error})
-    })
+  const zipcode = request.query.zipcode;
+
+  if (zipcode) {
+    database('venues')
+      .where('address', 'like', `%${zipcode}%`)
+      .select()
+      .then(venues => {
+        response.status(200).json(venues)
+      })
+      .catch(error => {
+        response.status(500).json({error})
+      })
+  } else {
+    database('venues').select()
+      .then(venues => {
+        response.status(200).json(venues)
+      })
+      .catch(error => {
+        response.status(500).json({error})
+      })
+  }
 })
 
 //get all concerts
@@ -203,6 +217,8 @@ app.delete('/api/v1/concerts/:id', (request, response) => {
       response.status(501).json({error})
     })
 })
+
+
 
 app.listen(app.get('port'), () => {
   console.log(`BYOB is running on ${app.get('port')}`)

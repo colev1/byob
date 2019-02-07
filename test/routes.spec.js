@@ -86,6 +86,21 @@ describe('API Routes', () => {
           done();
         })
     })
+
+    it.only('should GET venues by zip code', done => {
+      chai.request(server)
+        .get('/api/v1/venues?zipcode=80230')
+        .end((err, response) => {
+          response.should.have.status(200)
+          response.should.be.json
+          response.body.should.be.a('array')
+          response.body.length.should.equal(1)
+          response.body[0].should.have.property('name')
+          response.body[0].should.have.property('address')
+          response.body[0].should.have.property('id')
+          done()
+        })
+    })
   })
 
   describe('/api/v1/concerts', () => {
